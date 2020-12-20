@@ -1,7 +1,7 @@
 const express = require('express')
 const { route } = require('.')
 const router = express.Router()
-const User = require('../models/signup')
+const User = require('../models/auth')
 
 
 router.get('/', (req, res) => {
@@ -9,11 +9,15 @@ router.get('/', (req, res) => {
 })
 
 router.get('/new', (req, res) => {
-    res.render('users/new', { user: new User() })
+    res.render('users/new', { user: new User({
+        name: req.body.name,
+        emial: req.body.email,
+        password: req.body.password
+    }) })
 })
 
 router.post('/', (req, res) => {
-    res.send('Create')
+    res.send('User registered')
 })
 
 module.exports = router
