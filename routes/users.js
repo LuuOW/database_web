@@ -11,7 +11,7 @@ const { registerValidation, loginValidation } = require('./validation')
 //validation parameters
 const schema = Joi.object({
     name: Joi.string().min(6).required(),
-    email: Joi.string().min(6).required().email(),
+    email: Joi.string().min(6).email().required(),
     password: Joi.string().min(6).required()
 })
 
@@ -20,13 +20,14 @@ router.get('/', (req, res) => {
 })
 
 router.get('/new', (req, res) => {
-    res.render('users/new', { user: new User() })
+    res.render('users/new')
 })
 
 router.get('/login', (req, res) => {
-    res.render('users/login', { user: new User() })
+    res.render('users/login')
 })
 
+//Register new user
 
 router.post('/new', async (req, res) => {
 
@@ -46,7 +47,7 @@ router.post('/new', async (req, res) => {
 
     //creating new user
 
-    const user = new User({
+    const user = await new User({
         name: req.body.name,
         email: req.body.email,
         password: hashedPassword
@@ -54,14 +55,10 @@ router.post('/new', async (req, res) => {
 
     try {
         const saveUser = await user.save()
-        res.send({user: user._id})
+        res.send('User Succesfully registered')
     } catch (err) {
         res.status(400).send(err)
     }
-})
-
-router.post('/', (req, res) => {
-    res.send('User registered')
 })
 
 //Login
@@ -80,10 +77,8 @@ router.post('/login', async (req, res) => {
     //Create and assign a token
 
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
-    res.header('auth-token', token).send(token)
-
     
-    //res.send('Logged in!')
+    res.send('Logged in!')
 
 })
 

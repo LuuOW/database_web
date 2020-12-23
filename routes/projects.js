@@ -4,7 +4,7 @@ const router = express.Router()
 const verify = require('./verifyToken')
 
 
-router.get('/', verify, (req, res) => {
+router.get('/', (req, res) => {
     res.render('projects/index')
 })
 
