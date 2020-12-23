@@ -5,7 +5,8 @@ const { route } = require('.')
 const router = express.Router()
 const User = require('../models/auth')
 const Joi = require('@hapi/joi')
-const { registerValidation } = require('./validation')
+const jwt = require('jsonwebtoken')
+const { registerValidation, loginValidation } = require('./validation')
 
 //validation parameters
 const schema = Joi.object({
@@ -20,6 +21,10 @@ router.get('/', (req, res) => {
 
 router.get('/new', (req, res) => {
     res.render('users/new', { user: new User() })
+})
+
+router.get('/login', (req, res) => {
+    res.render('users/login', { user: new User() })
 })
 
 
@@ -49,7 +54,7 @@ router.post('/new', async (req, res) => {
 
     try {
         const saveUser = await user.save()
-        res.send(saveUser)
+        res.send({user: user._id})
     } catch (err) {
         res.status(400).send(err)
     }
@@ -57,6 +62,29 @@ router.post('/new', async (req, res) => {
 
 router.post('/', (req, res) => {
     res.send('User registered')
+})
+
+//Login
+
+router.post('/login', async (req, res) => {
+    //Validate user
+    const { error } = loginValidation(req.body)
+    if (error) return res.status(400).send(error.details[0].message)
+    //Check if user exist
+    const user = await User.findOne({ email: req.body.email })
+    if (!user) return res.status(400).send('Email or password is wrong, please check and try again')
+    //Check if password is correct
+    const validPass = await bcrypt.compare(req.body.password, user.password)
+    if (!validPass) return res.status(400).send('Email or password is wrong, please check and try again')
+    
+    //Create and assign a token
+
+    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
+    res.header('auth-token', token).send(token)
+
+    
+    //res.send('Logged in!')
+
 })
 
 module.exports = router
