@@ -38,7 +38,7 @@ input[type=password] {
 .Cancel {
     text-decoration: underline;
     color: white;
-    padding: 10rem;
+    margin-left: 12rem;
 }
 
 .Login {
@@ -48,4 +48,5 @@ input[type=password] {
     border-radius: 10px;
     font-size: 1rem;
     text-decoration: underline;
+    margin-left: 10rem;
 }

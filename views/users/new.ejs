@@ -1,6 +1,6 @@
 <h2>Register new user</h2>
-<form class="Form" action="/users/new" method="POST">
-    <ul>
+<form action="/users/new" method="POST">
+    <ul class="Form">
         <label for="name">Name: </label>
         <input type="text" id="name" name="name" required></input>
 
@@ -10,6 +10,7 @@
         <label for="password">Password: </label>
         <input type="password" id="password" name="password" required></input>
     </ul>
+
+    <a class="Cancel" href="../users/../">Cancel</a>
+    <button class="Register" type="submit">Register</button>
 </form>
-<a class="Cancel" href="../users/../">Cancel</a>
-<button class="Register" type="submit">Register</button>

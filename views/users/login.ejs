@@ -1,13 +1,15 @@
 <h2>Login</h2>
-<form class="Form" action = "/users/login" method="POST">
+<form action="/users/login" method="POST">
 
-    <label for="email">Email: </label>
-    <input type="text" id="email" name="email" required></input>
+    <ul class="Form">
+        <label for="email">Email: </label>
+        <input type="text" id="email" name="email" required></input>
 
-    <label for="password">Password: </label>
-    <input type="password" id="password" name="password" required></input>
-    
+        <label for="password">Password: </label>
+        <input type="password" id="password" name="password" required></input>
+    </ul>
+
+    <a class="Cancel" href="../users/../">Cancel</a>
+    <button class="Login" type="submit">Login</button>
+
 </form>
-
-<a class="Cancel" href="../users/../">Cancel</a>
-<button class="Login" type = "submit">Login</button>
